@@ -1,17 +1,37 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-
-export default function Home() {
+import Head from "next/head";
+import Image from "next/image";
+import Header from "../components/Header";
+import Nav from "../components/Nav";
+import Results from "../components/Results";
+import requests from "../utils/requests";
+export default function Home({ results }) {
+  console.log("res", results);
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>Hulu</title>
+        <title>Hulu 2.0</title>
         <meta name="description" content="hulu clone" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-    <h1>First  Next App</h1>
+      {/* header    */}
+      <Header />
+      {/* nav    */}
+      <Nav />
+      {/* films    */}
+      <Results results={results.results} />
     </div>
-  )
+  );
+}
+export async function getServerSideProps(context) {
+  const genre = context.query.genre;
+  const request = await fetch(
+    `https://api.themoviedb.org/3${
+      requests[genre]?.url || requests.fetchTopRated.url
+    }`
+  ).then((res) => res.json());
+  return {
+    props: {
+      results: request,
+    },
+  };
 }
