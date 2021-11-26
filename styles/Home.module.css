@@ -100,7 +100,7 @@
 .card p {
   margin: 0;
   font-size: 1.25rem;
-  line-height: 1.5;
+  line-height: 1.5;color: rgb(104, 18, 18);
 }
 
 .logo {
